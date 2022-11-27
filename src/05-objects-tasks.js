@@ -116,32 +116,84 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  err: 'Element, id and pseudo-element should not occur more then one time inside the selector',
+  err_1: 'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element',
+  str: '',
+  num: 0,
+  element(value) {
+    const number = 1;
+    if (this.num > number) { throw this.err_1; }
+    // eslint-disable-next-line no-prototype-builtins
+    if (this.hasOwnProperty('isElem')) { throw this.err; }
+    const el = { str: value, isElem: value, num: number };
+    // eslint-disable-next-line no-proto
+    el.__proto__ = this;
+    return el;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    const number = 2;
+    if (this.num > number) { throw this.err_1; }
+    // eslint-disable-next-line no-prototype-builtins
+    if (this.hasOwnProperty('isId')) { throw this.err; }
+    const idValue = this.str.concat(`#${value}`);
+    const id = { str: idValue, isId: value, num: number };
+    // eslint-disable-next-line no-proto
+    id.__proto__ = this;
+    return id;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    const number = 3;
+    if (this.num > number) { throw this.err_1; }
+    const clsValue = this.str.concat(`.${value}`);
+    const cls = { str: clsValue, num: number };
+    // eslint-disable-next-line no-proto
+    cls.__proto__ = this;
+    return cls;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    const number = 4;
+    if (this.num > number) { throw this.err_1; }
+    const attrValue = this.str.concat(`[${value}]`);
+    const attr = { str: attrValue, num: number };
+    // eslint-disable-next-line no-proto
+    attr.__proto__ = this;
+    return attr;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    const number = 5;
+    if (this.num > number) { throw this.err_1; }
+    const pseudoValue = this.str.concat(`:${value}`);
+    const pseudo = { str: pseudoValue, num: number };
+    // eslint-disable-next-line no-proto
+    pseudo.__proto__ = this;
+    return pseudo;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    const number = 6;
+    if (this.num > number) { throw this.err_1; }
+    // eslint-disable-next-line no-prototype-builtins
+    if (this.hasOwnProperty('isPsEl')) { throw this.err; }
+    const pseudoElValue = this.str.concat(`::${value}`);
+    const pseudoEl = { str: pseudoElValue, isPsEl: value, num: number };
+    // eslint-disable-next-line no-proto
+    pseudoEl.__proto__ = this;
+    return pseudoEl;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    const comboValue = `${selector1.str} ${combinator} ${selector2.str}`;
+    const combo = { str: comboValue };
+    // eslint-disable-next-line no-proto
+    combo.__proto__ = this;
+    return combo;
+  },
+  stringify() {
+    return this.str;
   },
 };
 
