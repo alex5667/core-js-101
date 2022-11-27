@@ -226,7 +226,8 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  return +Object.prototype.toString.call(value) === '[object Number]' ? +value : def;
+  // eslint-disable-next-line no-nested-ternary, no-restricted-globals
+  return typeof Number(+value) !== 'number' || isNaN(+value) ? def : Number(value);
 }
 
 module.exports = {
