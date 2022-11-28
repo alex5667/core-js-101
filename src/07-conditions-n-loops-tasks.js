@@ -161,8 +161,13 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  // eslint-disable-next-line no-restricted-properties
+  const dotX = Math.pow((point.x - circle.center.x), 2);
+  // eslint-disable-next-line no-restricted-properties
+  const dotY = Math.pow((point.y - circle.center.y), 2);
+  // eslint-disable-next-line no-restricted-properties
+  return dotX + dotY < Math.pow(circle.radius, 2);
 }
 
 
@@ -177,8 +182,15 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let res = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    if (str.indexOf(str[i]) === str.lastIndexOf(str[i])) {
+      res = str[i];
+      break;
+    }
+  }
+  return res || null;
 }
 
 
@@ -204,8 +216,17 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let start = '(';
+  let end = ')';
+
+  if (isStartIncluded === true) {
+    start = '[';
+  }
+  if (isEndIncluded === true) {
+    end = ']';
+  }
+  return `${start}${Math.min(a, b)}, ${Math.max(a, b)}${end}`;
 }
 
 
@@ -221,8 +242,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -238,8 +259,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return +num.toString().split('').reverse().join('');
 }
 
 
@@ -263,8 +284,28 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const arr = ccn.toString().split('');
+  let sum = 0;
+  let i = 1;
+  let k = 0;
+  if (arr.length % 2 === 0) {
+    i = 0;
+    k = 1;
+  }
+  while (i < arr.length) {
+    let n = arr[i] * 2;
+    if (n > 9) {
+      n -= 9;
+    }
+    sum += n;
+    i += 2;
+  }
+  while (k < arr.length) {
+    sum += arr[k] * 1;
+    k += 2;
+  }
+  return sum % 10 === 0;
 }
 
 /**
@@ -281,8 +322,12 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const res = num.toString().split('').reduce((a, b) => +a + +b);
+  if (res > 9) {
+    return getDigitalRoot(res);
+  }
+  return res;
 }
 
 
