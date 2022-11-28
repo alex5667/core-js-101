@@ -44,8 +44,9 @@ function getComposition(f, g) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  // eslint-disable-next-line no-restricted-properties
+  return (x) => Math.pow(x, exponent);
 }
 
 
@@ -62,8 +63,22 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  // eslint-disable-next-line func-names
+  return (x) => {
+    const arr = [...args];
+    let res = 0;
+    if (arr.length === 1) {
+      res = arr[0] * 1;
+    }
+    if (arr.length === 2) {
+      res = x * arr[0] + arr[1];
+    }
+    if (arr.length === 3) {
+      res = (x ** 2) * arr[0] + x * arr[1] + arr[2];
+    }
+    return res;
+  };
 }
 
 
@@ -81,8 +96,12 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const first = func();
+  // eslint-disable-next-line func-names
+  return function second() {
+    return first;
+  };
 }
 
 
