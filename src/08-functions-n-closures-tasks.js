@@ -120,8 +120,19 @@ function memoize(func) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  // eslint-disable-next-line consistent-return
+  return () => {
+    do {
+      try {
+        return func();
+      // eslint-disable-next-line no-empty
+      } catch (err) { }
+      // eslint-disable-next-line no-plusplus, no-param-reassign
+    } while (attempts > 0);
+    // eslint-disable-next-line no-plusplus, no-param-reassign
+    attempts--;
+  };
 }
 
 
